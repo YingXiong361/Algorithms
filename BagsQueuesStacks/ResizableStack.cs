@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BagsQueuesStacks
 {
-    public class ResizableStack<T>
+    public class ResizableStack<T> : IEnumerable<T>
     {
         public static readonly string TestSample = "to be or not to - be - - that - - - is";
         int index;
@@ -52,10 +52,10 @@ namespace BagsQueuesStacks
 
         private void Halve()
         {
-            if(index!=0&&index==data.Length/4)
+            if (index != 0 && index == data.Length / 4)
             {
                 var newData = new T[data.Length / 2];
-                for(int i=0;i<index;i++)
+                for (int i = 0; i < index; i++)
                 {
                     newData[i] = data[i];
                 }
@@ -91,6 +91,78 @@ namespace BagsQueuesStacks
             }
 
             Console.WriteLine("(" + s.Size() + " left on stack )");
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        private IEnumerator<T> GetEnumerator()
+        {
+            return new ResizableStackEnumerator(this);
+        }
+
+        private class ResizableStackEnumerator : IEnumerator<T>
+        {
+            int _currentIndex;
+            ResizableStack<T> _containingClassInstance;
+
+            public ResizableStackEnumerator(ResizableStack<T> containingClassObj)
+            {
+                _currentIndex = containingClassObj.Size();
+                _containingClassInstance = containingClassObj;
+            }
+
+            T IEnumerator<T>.Current
+            {
+                get
+                {
+                    return Current;
+                }
+            }
+
+            private T Current
+            {
+                get
+                {
+                    try
+                    {
+                        return _containingClassInstance.data[_currentIndex];
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        throw new InvalidOperationException();
+                    }
+                }
+            }
+            void IDisposable.Dispose()
+            {
+            }
+
+            object System.Collections.IEnumerator.Current
+            {
+                get
+                {
+                    return Current;
+                }
+            }
+
+            bool System.Collections.IEnumerator.MoveNext()
+            {
+                _currentIndex--;
+                return _currentIndex >= 0;
+            }
+
+            void System.Collections.IEnumerator.Reset()
+            {
+                _currentIndex = _containingClassInstance.Size();
+            }
         }
     }
 }
