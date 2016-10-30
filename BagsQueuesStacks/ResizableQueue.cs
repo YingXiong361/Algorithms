@@ -6,92 +6,103 @@ using System.Threading.Tasks;
 
 namespace BagsQueuesStacks
 {
-    public class ResizableStack<T> : IEnumerable<T>
+    class ResizableQueue<T> : IEnumerable<T>
     {
         public static readonly string TestSample = "to be or not to - be - - that - - - is";
-        int index;
-        T[] data;
 
-        public ResizableStack(int initialSize)
+        T[] data;
+        int _headIndex;
+        int _tailIndex;
+        public ResizableQueue(int defaultSize)
         {
-            data = new T[initialSize];
-            index = 0;
+            data = new T[defaultSize];
+            _headIndex = -1;
+            _tailIndex = 0;
         }
 
-        public void Push(T item)
+        public int Size()
+        {
+            return _headIndex - _tailIndex + 1;
+        }
+
+        public bool IsEmpty()
+        {
+            return _tailIndex > _headIndex;
+        }
+
+        private bool IsFull()
+        {
+            return Size() == data.Length;
+        }
+
+        public void Enqueue(T item)
         {
             if (IsFull())
             {
                 Resize(data.Length * 2);
             }
-            data[index++] = item;
+            _headIndex++;
+            data[_headIndex % data.Length] = item;
         }
 
-        public T Pop()
+        public T Dequeue()
         {
-            T item = data[--index];
-            data[index] = default(T);
+            T item = data[_tailIndex % data.Length];
+            data[_tailIndex%data.Length] = default(T);
+            _tailIndex++;
             Halve();
             return item;
         }
 
-        public bool IsEmpty()
-        {
-            return index == 0;
-        }
-
         private void Resize(int max)
         {
-            var newData = new T[max];
-            for (int i = 0; i < index; i++)
+            T[] newData = new T[max];
+            int k = -1;
+            for (int i = _tailIndex % data.Length; i <= _headIndex % data.Length; i++)
             {
-                newData[i] = data[i];
+                newData[++k] = data[i];
             }
+
             data = newData;
+            _tailIndex = 0;
+            _headIndex = k;
         }
 
         private void Halve()
         {
-            if (index != 0 && index == data.Length / 4)
+            if (Size() != 0 && Size() <= data.Length / 4)
             {
-                var newData = new T[data.Length / 2];
-                for (int i = 0; i < index; i++)
+                T[] newData = new T[data.Length / 2];
+                int k = -1;
+                for (int i = _tailIndex % data.Length; i <= _headIndex % data.Length; i++)
                 {
-                    newData[i] = data[i];
+                    newData[++k] = data[i];
                 }
                 data = newData;
+                _tailIndex = 0;
+                _headIndex = k;
             }
         }
 
-        public int Size()
-        {
-            return index;
-        }
-
-        private bool IsFull()
-        {
-            return index == data.Length;
-        }
-
-
         public static void RunClient(string sample)
         {
-            ResizableStack<string> s = new ResizableStack<string>(100);
+            ResizableQueue<string> s = new ResizableQueue<string>(100);
             var items = sample.Split(' ').ToList();
             foreach (var item in items)
             {
                 if (item != "-")
                 {
-                    s.Push(item);
+                    s.Enqueue(item);
                 }
                 else if (!s.IsEmpty())
                 {
-                    Console.Write(s.Pop() + " ");
+                    Console.Write(s.Dequeue() + " ");
                 }
             }
 
-            Console.WriteLine("(" + s.Size() + " left on stack )");
+            Console.WriteLine("(" + s.Size() + " left on queue )");
         }
+
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
@@ -105,29 +116,26 @@ namespace BagsQueuesStacks
 
         private IEnumerator<T> GetEnumerator()
         {
-            return new ResizableStackEnumerator(this);
+            return new ResizableQueueEnumerator(this);
         }
 
-        private class ResizableStackEnumerator : IEnumerator<T>
+        private class ResizableQueueEnumerator : IEnumerator<T>
         {
+            private ResizableQueue<T> _containingClassInstance;
             int _currentIndex;
-            ResizableStack<T> _containingClassInstance;
 
-            public ResizableStackEnumerator(ResizableStack<T> containingClassObj)
+            public ResizableQueueEnumerator(ResizableQueue<T> containingClassObj)
             {
-                _currentIndex = containingClassObj.Size();
                 _containingClassInstance = containingClassObj;
+                _currentIndex = containingClassObj._tailIndex - 1;
             }
 
             T IEnumerator<T>.Current
             {
-                get
-                {
-                    return Current;
-                }
+                get { return Current; }
             }
 
-            private T Current
+            public T Current
             {
                 get
                 {
@@ -139,6 +147,7 @@ namespace BagsQueuesStacks
                     {
                         throw new InvalidOperationException();
                     }
+
                 }
             }
             void IDisposable.Dispose()
@@ -147,21 +156,18 @@ namespace BagsQueuesStacks
 
             object System.Collections.IEnumerator.Current
             {
-                get
-                {
-                    return Current;
-                }
+                get { return Current; }
             }
 
             bool System.Collections.IEnumerator.MoveNext()
             {
-                _currentIndex--;
-                return _currentIndex >= 0;
+                _currentIndex++;
+                return _currentIndex <= _containingClassInstance._headIndex;
             }
 
             void System.Collections.IEnumerator.Reset()
             {
-                _currentIndex = _containingClassInstance.Size();
+                _currentIndex = _containingClassInstance._tailIndex - 1;
             }
         }
     }
