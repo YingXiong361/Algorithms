@@ -26,20 +26,34 @@ namespace BagsQueuesStacks
             //}
 
           //  ResizableQueue<string>.RunClient(ResizableQueue<string>.TestSample);
-            StackImplementedByLinkedList<string>.RunClient(StackImplementedByLinkedList<string>.TestSample);
+            //StackImplementedByLinkedList<string>.RunClient(StackImplementedByLinkedList<string>.TestSample);
 
-            var stack = new StackImplementedByLinkedList<string>();
-            foreach (var item in StackImplementedByLinkedList<string>.TestSample.Split(' ').ToList())
+            //var stack = new StackImplementedByLinkedList<string>();
+            //foreach (var item in StackImplementedByLinkedList<string>.TestSample.Split(' ').ToList())
+            //{
+            //    stack.Push(item.ToString());
+            //}
+
+            //foreach (var item in stack)
+            //{
+            //    Console.Write(item + " ");
+            //}
+
+            QueueImplementedByLinkedList<string>.RunClient(QueueImplementedByLinkedList<string>.TestSample);
+
+            var queue = new QueueImplementedByLinkedList<string>();
+
+            foreach (var item in QueueImplementedByLinkedList<string>.TestSample.Split(' ').ToList())
             {
-                stack.Push(item.ToString());
+                queue.Enqueue(item.ToString());
             }
 
-            foreach (var item in stack)
+            foreach (var item in queue)
             {
                 Console.Write(item + " ");
             }
 
-            Console.Read();
+            Console.ReadKey();
         }
     }
 }

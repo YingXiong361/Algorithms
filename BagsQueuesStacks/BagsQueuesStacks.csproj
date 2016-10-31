@@ -45,6 +45,7 @@
     <Compile Include="FixedCapacityStackOfStrings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueueImpementedByLinkedList.cs" />
     <Compile Include="ResizableQueue.cs" />
     <Compile Include="ResizableStack.cs" />
     <Compile Include="StackImplementedByLinkedList.cs" />
