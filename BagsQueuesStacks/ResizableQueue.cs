@@ -48,7 +48,7 @@ namespace BagsQueuesStacks
         public T Dequeue()
         {
             T item = data[_tailIndex % data.Length];
-            data[_tailIndex%data.Length] = default(T);
+            data[_tailIndex % data.Length] = default(T);
             _tailIndex++;
             Halve();
             return item;
@@ -58,11 +58,12 @@ namespace BagsQueuesStacks
         {
             T[] newData = new T[max];
             int k = -1;
-            for (int i = _tailIndex % data.Length; i <= _headIndex % data.Length; i++)
+            for (int i = _tailIndex; i <= _headIndex; i++)
             {
-                newData[++k] = data[i];
+                newData[++k] = data[i % data.Length];
             }
-
+            Console.WriteLine("tailIndex=[{0}] headIndex=[{1}]", _tailIndex, _headIndex);
+            Console.WriteLine("Resize from {0} to {1}", max / 2, max);
             data = newData;
             _tailIndex = 0;
             _headIndex = k;
@@ -74,10 +75,12 @@ namespace BagsQueuesStacks
             {
                 T[] newData = new T[data.Length / 2];
                 int k = -1;
-                for (int i = _tailIndex % data.Length; i <= _headIndex % data.Length; i++)
+                for (int i = _tailIndex; i <= _headIndex; i++)
                 {
-                    newData[++k] = data[i];
+                    newData[++k] = data[i % data.Length];
                 }
+                Console.WriteLine("tailIndex=[{0}] headIndex=[{1}]", _tailIndex, _headIndex);
+                Console.WriteLine("Resize from {0} to {1}", data.Length, data.Length / 2);
                 data = newData;
                 _tailIndex = 0;
                 _headIndex = k;
@@ -86,7 +89,7 @@ namespace BagsQueuesStacks
 
         public static void RunClient(string sample)
         {
-            ResizableQueue<string> s = new ResizableQueue<string>(100);
+            ResizableQueue<string> s = new ResizableQueue<string>(3);
             var items = sample.Split(' ').ToList();
             foreach (var item in items)
             {
