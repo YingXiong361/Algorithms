@@ -107,7 +107,7 @@ namespace BagsQueuesStacks
                 {
                     Thread.Sleep(500);
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Consume data [{0}] Thread[{1}]", buffer.Dequeue(), Thread.CurrentThread.Name);
+                    Console.WriteLine("Consume data[{0}] on Thread [{1}]", buffer.Dequeue(), Thread.CurrentThread.Name);
                     Console.ResetColor();
                 }
             }
