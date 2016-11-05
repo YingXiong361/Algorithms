@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BagsQueuesStacks
@@ -14,13 +15,14 @@ namespace BagsQueuesStacks
 
         void Enqueue(T item);
 
-        T Dequeu();
+        T Dequeue();
     }
     public class RingBuffer<T> : IRingBuffer<T> where T : struct
     {
         T[] _data;
         int _headIndex;
         int _tailIndex;
+        private object _mutex = new object();
         public RingBuffer(int size)
         {
             _data = new T[size];
@@ -30,12 +32,18 @@ namespace BagsQueuesStacks
 
         bool IRingBuffer<T>.IsFull()
         {
-            return Size() == _data.Length;
+            lock (_mutex)
+            {
+                return Size() == _data.Length;
+            }
         }
 
         bool IRingBuffer<T>.IsEmpty()
         {
-            return _headIndex < _tailIndex;
+            lock (_mutex)
+            {
+                return _headIndex < _tailIndex;
+            }
         }
 
         private int Size()
@@ -44,12 +52,65 @@ namespace BagsQueuesStacks
         }
         void IRingBuffer<T>.Enqueue(T item)
         {
-            _data[++_headIndex % _data.Length] = item;
+            lock (_mutex)
+            {
+                _data[++_headIndex % _data.Length] = item;
+            }
         }
 
-        T IRingBuffer<T>.Dequeu()
+        T IRingBuffer<T>.Dequeue()
         {
-            return _data[_tailIndex++];
+            lock (_mutex)
+            {
+                var item = _data[_tailIndex % _data.Length];
+                _tailIndex++;
+                return item;
+            }
+        }
+
+        public static void RunClient()
+        {
+            var buffer = new RingBuffer<int>(4);
+            var shouldStop = false;
+            var producerThread = new Thread(() => Produce(buffer, ref shouldStop)) { Name = "Producer_1" };
+            var consumerThread = new Thread(() => Consume(buffer, ref shouldStop)) { Name = "Consumer_1" };
+            producerThread.Start();
+            consumerThread.Start();
+            producerThread.Join();
+            consumerThread.Join();
+            Console.WriteLine("Finsh producing and consuming");
+        }
+
+        public static int DataSize = 100;
+        private static void Produce(IRingBuffer<int> buffer, ref bool shouldStop)
+        {
+            Thread.Sleep(500);
+            int i = 0;
+            while (i <= 100)
+            {
+                if (!buffer.IsFull())
+                {
+                   // Console.WriteLine("Produce data [{0}] Thread[{1}]", i, Thread.CurrentThread.Name);
+                    Thread.Sleep(500);
+                    buffer.Enqueue(i++);
+                }
+            }
+            shouldStop = true;
+        }
+
+        private static void Consume(IRingBuffer<int> buffer, ref bool shouldStop)
+        {
+
+            while (!shouldStop || !buffer.IsEmpty())
+            {
+                if (!buffer.IsEmpty())
+                {
+                    Thread.Sleep(500);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Consume data [{0}] Thread[{1}]", buffer.Dequeue(), Thread.CurrentThread.Name);
+                    Console.ResetColor();
+                }
+            }
         }
     }
 }
