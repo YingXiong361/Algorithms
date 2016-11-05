@@ -38,6 +38,11 @@ namespace BagsQueuesStacks
             return index;
         }
 
+        public bool IsFull()
+        {
+            return index == datas.Length;
+        }
+
         public static void RunClient(string sample)
         {
             FixedCapacityStackOfStrings s = new FixedCapacityStackOfStrings(100);
