@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BagsQueuesStacks
 {
     /// <summary>
-    /// Execise 1.3.40
+    /// Exercise 1.3.40
     /// </summary>
     public class MoveToFront
     {

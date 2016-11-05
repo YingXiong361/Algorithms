@@ -18,7 +18,7 @@ namespace BagsQueuesStacks
         T Dequeue();
     }
     /// <summary>
-    ///  Execise 1.3.39
+    ///  Exercise 1.3.39
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class RingBuffer<T> : IRingBuffer<T> where T : struct
