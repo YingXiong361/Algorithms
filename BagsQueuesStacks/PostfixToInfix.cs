@@ -12,7 +12,7 @@ namespace BagsQueuesStacks
     public class PostfixToInfix
     {
         public const string Input = "1 + 2 ) * 3 - 4 ) * 5 - 6 ) ) )";
-        public const string ExpectedOutput = "( ( 1 + 2 ) * ( ( 3 - 4 ) * (5 - 6 ) )";
+        public const string ExpectedOutput = "( ( 1 + 2 ) * ( ( 3 - 4 ) * (5 - 6 ) ) )";
         public const string RightParentheses = ")";
         public const string LeftParentheses = "(";
 
