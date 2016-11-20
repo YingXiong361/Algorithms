@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BagsQueuesStacks
 {
-    class StackImplementedByLinkedList<T>:IEnumerable<T>
+    class StackImplementedByLinkedList<T> : IEnumerable<T>
     {
         public static readonly string TestSample = "to be or not to - be - - that - - - is";
         int N;
@@ -34,6 +34,15 @@ namespace BagsQueuesStacks
             first = first.Next;
             N--;
             return data;
+        }
+
+        /// <summary>
+        /// Exercise 1.3.7
+        /// </summary>
+        /// <returns></returns>
+        public T Peek()
+        {
+            return first.Item;
         }
 
         public bool IsEmpty()
@@ -86,7 +95,7 @@ namespace BagsQueuesStacks
             return new Iterator(this);
         }
 
-        private class Iterator:IEnumerator<T>
+        private class Iterator : IEnumerator<T>
         {
             private StackImplementedByLinkedList<T> _outerClassInstance;
             private Node _current;
@@ -95,8 +104,8 @@ namespace BagsQueuesStacks
                 _outerClassInstance = outerClass;
                 _current = new Node
                     {
-                        Item=default(T),
-                        Next=_outerClassInstance.first
+                        Item = default(T),
+                        Next = _outerClassInstance.first
                     };
             }
 
@@ -117,7 +126,7 @@ namespace BagsQueuesStacks
             bool System.Collections.IEnumerator.MoveNext()
             {
                 _current = _current.Next;
-                return _current!=null;
+                return _current != null;
             }
 
             void System.Collections.IEnumerator.Reset()
