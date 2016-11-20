@@ -67,7 +67,7 @@ namespace BagsQueuesStacks
 
         public static void RunClient(string sample)
         {
-            ResizableQueue<string> s = new ResizableQueue<string>(100);
+            QueueImplementedByLinkedList<string> s = new QueueImplementedByLinkedList<string>();
             var items = sample.Split(' ').ToList();
             foreach (var item in items)
             {

@@ -52,6 +52,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueueImpementedByLinkedList.cs" />
+    <Compile Include="QueueImplementedByCircularLinkedList.cs" />
     <Compile Include="ResizableQueue.cs" />
     <Compile Include="ResizableStack.cs" />
     <Compile Include="RingBuffer.cs" />
