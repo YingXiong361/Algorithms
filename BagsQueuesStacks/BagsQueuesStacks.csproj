@@ -41,9 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffer.cs" />
+    <Compile Include="EvaluatePostfix.cs" />
     <Compile Include="FixedCapacityStack.cs" />
     <Compile Include="FixedCapacityStackOfStrings.cs" />
+    <Compile Include="InfixToPostfix.cs" />
+    <Compile Include="JosephusProblem.cs" />
     <Compile Include="MoveToFront.cs" />
+    <Compile Include="PostfixToInfix.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueueImpementedByLinkedList.cs" />

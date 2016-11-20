@@ -11,9 +11,10 @@ namespace BagsQueuesStacks
     /// </summary>
     public class InfixToPostfix
     {
-        public const string Input = "( ( 1 + 2 ) * ( ( 3 - 4 ) * (5 - 6 ) ) )";
+        public const string Input = "( ( 1 + 2 ) * ( ( 3 - 4 ) * ( 5 - 6 ) ) )";
         public const string ExpectedOutput = "1 + 2 ) * 3 - 4 ) * 5 - 6 ) ) )";
-        public const string LeftParenthese = "(";
+        private const string LeftParenthese = "(";
+        private const string espace = " ";
 
         public static string Transform(string input)
         {
@@ -21,9 +22,9 @@ namespace BagsQueuesStacks
             foreach (var elem in input.Split(' '))
             {
                 if (elem == LeftParenthese) { continue; }
-                postfixExpression.Append(elem);
+                postfixExpression.Append(elem + espace);
             }
-            return postfixExpression.ToString();
+            return postfixExpression.Remove(postfixExpression.Length-1,1).ToString();
         }
     }
 }

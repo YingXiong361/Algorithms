@@ -13,8 +13,8 @@ namespace BagsQueuesStacks
     {
         public const string Input = "1 + 2 ) * 3 - 4 ) * 5 - 6 ) ) )";
         public const string ExpectedOutput = "( ( 1 + 2 ) * ( ( 3 - 4 ) * (5 - 6 ) ) )";
-        public const string RightParentheses = ")";
-        public const string LeftParentheses = "(";
+        private const string RightParentheses = ")";
+        private const string LeftParentheses = "(";
 
         public static string Transform(string input)
         {
