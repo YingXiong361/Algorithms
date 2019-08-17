@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BagsQueuesStacks", "BagsQueuesStacks\BagsQueuesStacks.csproj", "{67755FC6-79A2-4F55-A9FF-90D7EFD4A10C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DivideAndConquer", "DivideAndConquer\DivideAndConquer.csproj", "{37544AC3-3F47-45A4-A42F-3C07B3ACC9B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{67755FC6-79A2-4F55-A9FF-90D7EFD4A10C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67755FC6-79A2-4F55-A9FF-90D7EFD4A10C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67755FC6-79A2-4F55-A9FF-90D7EFD4A10C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37544AC3-3F47-45A4-A42F-3C07B3ACC9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37544AC3-3F47-45A4-A42F-3C07B3ACC9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37544AC3-3F47-45A4-A42F-3C07B3ACC9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37544AC3-3F47-45A4-A42F-3C07B3ACC9B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
